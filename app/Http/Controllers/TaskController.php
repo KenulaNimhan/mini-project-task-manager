@@ -28,7 +28,13 @@ class TaskController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // validate the request
+        $validated = $request->validate([
+            'description' => 'required|max:255',
+            'project_id' => ['required|integer|exists:projects,id'],
+        ]);
+        // create new task in db
+        Task::create($validated);
     }
 
     /**
