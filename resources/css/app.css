@@ -7,8 +7,24 @@
     --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 }
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+.header {
+    padding: 1em;
+    font-weight: bold;
+    color: white;
+}
+
+.projectSection {
+    width: 75%;
+    margin: auto;
+    margin-top: 5em;
+}
+
+.projectSection section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+button:hover {
+    cursor: pointer;
 }
