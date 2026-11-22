@@ -1,19 +1,24 @@
 <?php
 
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\TaskController;
 use Illuminate\Support\Facades\Route;
 
-Route::view('/', 'welcome')->name('home');
+//Route::view('/', 'welcome')->name('home');
 
 // PROJECT
 // read
-Route::view('projects', 'project.index')->name('projects');
+Route::get('/', [ProjectController::class, 'index'])->name('project.index');
 // create
-Route::get('projects/create-new', [ProjectController::class, 'create'])->name('project.create');
-Route::post('projects/store', [ProjectController::class, 'store'])->name('project.store');
-
-
+Route::get('/projects/create', [ProjectController::class, 'create'])->name('project.create');
+Route::post('/projects', [ProjectController::class, 'store'])->name('project.store');
 // update
+Route::patch('/projects/{project}', [ProjectController::class, 'update'])->name('project.update');
 // delete
+Route::delete('/projects/{project}', [ProjectController::class, 'destroy'])->name('project.destroy');
 
 // TASK
+Route::get('/tasks', [TaskController::class, 'index'])->name('task.index');
+Route::post('/tasks', [TaskController::class, 'store'])->name('task.store');
+Route::patch('/tasks{task}', [TaskController::class, 'update'])->name('task.update');
+Route::delete('/tasks/{task}', [TaskController::class, 'destroy'])->name('task.destroy');
