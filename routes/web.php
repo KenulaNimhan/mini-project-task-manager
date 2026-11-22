@@ -7,10 +7,12 @@ use Illuminate\Support\Facades\Route;
 //Route::view('/', 'welcome')->name('home');
 
 // PROJECT
+//Route::livewire('/project/create', 'pages::project.create')->name('project.create');
+Route::livewire('/', 'pages::project.index')->name('project.index');
 // read
-Route::get('/', [ProjectController::class, 'index'])->name('project.index');
+//Route::get('/', [ProjectController::class, 'index'])->name('project.index');
 // create
-Route::get('/projects/create', [ProjectController::class, 'create'])->name('project.create');
+//Route::get('/projects/create', [ProjectController::class, 'create'])->name('project.create');
 Route::post('/projects', [ProjectController::class, 'store'])->name('project.store');
 // update
 Route::patch('/projects/{project}', [ProjectController::class, 'update'])->name('project.update');
