@@ -5,9 +5,15 @@ use Livewire\Attributes\Computed;
 use Livewire\Component;
 
 new class extends Component {
-    public bool $showModal = false;
+    public bool $createModal = false;
+    public bool $editModal = false;
+    public bool $deleteConfirmation = false;
     public string $name = '';
     public string $description = '';
+    public ?int $editingId = null;
+    public ?int $deletingId = null;
+
+    public string $nameOfProjectToDelete = '';
 
     #[Computed]
     public function projects()
@@ -15,9 +21,8 @@ new class extends Component {
         return Project::all();
     }
 
-    public function save()
+    public function create()
     {
-
         $validated = $this->validate([
             'name' => 'required|string',
             'description' => 'nullable|string',
@@ -30,59 +35,61 @@ new class extends Component {
 
     public function closeModal()
     {
-        $this->reset(['showModal', 'name', 'description']);
+        $this->reset([
+            'createModal',
+            'editModal',
+            'deleteConfirmation',
+            'name',
+            'description',
+            'editingId',
+            'deletingId'
+        ]);
         $this->resetValidation();
     }
 
-    public function editForm($project)
+    public function editForm(int $id)
     {
+        $project = Project::findOrFail($id);
+
+        $this->editingId = $project->id;
         $this->name = $project->name;
         $this->description = $project->description;
-        $this->showModal = true;
+        $this->editModal = true;
+    }
+
+    public function edit()
+    {
+        $validate = $this->validate([
+            'name' => 'required|string',
+            'description' => 'nullable|string',
+        ]);
+
+        $project = Project::find($this->editingId);
+        $project->update([
+            'name' => $this->name,
+            'description' => $this->description,
+        ]);
+
+        return $this->redirect(route('project.index'));
+    }
+
+    public function openDeleteConfirmationModal(int $id)
+    {
+        $projectToDelete = Project::findOrFail($id);
+        $this->nameOfProjectToDelete = $projectToDelete->name;
+        $this->deleteConfirmation = true;
     }
 };
 ?>
 
 <div>
 
-    @if($showModal)
-        <div wire:click.self="closeModal" wire:keydown.escape.window="closeModal"
-             class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/40">
-            <div class="h-fit w-full min-w-2xl max-w-lg rounded-lg border border-slate-200 bg-white shadow-lg">
-                <header class="flex justify-between p-6 border-b border-b-gray-300">
-                    <h2 class="text-lg font-semibold text-slate-900">New Project</h2>
-                    <button type="button" wire:click="closeModal" aria-label="Close modal" class="inline-flex h-8 w-8 items-center justify-center rounded-md text-slate-500 transition-colors duration-150 hover:bg-slate-100 hover:text-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-600">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x h-4 w-4" aria-hidden="true">
-                            <path d="M18 6 6 18"></path>
-                            <path d="m6 6 12 12"></path>
-                        </svg>
-                    </button>
-                </header>
-                <form wire:submit="save" class="flex flex-col gap-5 p-6">
-                    <label>
-                        Project Name
-                        <span class="text-red-600" aria-hidden="true">*</span>
-                        <input type="text" wire:model="name" class="input">
-                        @error('name') <span class="errorMsg">{{ $message }}</span> @enderror
-                    </label>
-
-                    <label>
-                        Description
-                        <textarea wire:model="description" rows="3" maxlength="255" class="input"></textarea>
-                        @error('description') <span class="errorMsg">{{ $message }}</span> @enderror
-                    </label>
-
-                    <div class="flex items-center justify-end gap-3 border-t border-slate-100 pt-4">
-                        <button type="button" wire:click="closeModal" class="whitespace-nowrap shrink-0 rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 transition-colors duration-150 hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-600">
-                            Cancel
-                        </button>
-                        <button type="submit" class="submitBtn">
-                            Create Project
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div>
+    @if($createModal)
+        <x-modal title="New Project" submit-text="Create Project" on-submit="create"/>
+    @elseif($editModal)
+        <x-modal title="Edit Project" submit-text="Save Edit" on-submit="edit"/>
+    @elseif($deleteConfirmation)
+        <x-confirmation project-name="{{ $nameOfProjectToDelete }}"/>
     @endif
 
     <div class="projectSection">
@@ -91,7 +98,7 @@ new class extends Component {
                 <h1 class="text-2xl font-bold tracking-tight text-slate-900">Projects</h1>
                 <span class="mt-1 text-sm text-slate-600">{{ $this->projects->count() }} projects total</span>
             </div>
-            <button type="button" wire:click="$set('showModal', true)" class="submitBtn">+ New Project</button>
+            <button type="button" wire:click="$set('createModal', true)" class="submitBtn">+ New Project</button>
         </header>
         <section class="flex flex-col justify-center rounded-lg border border-slate-200 bg-white mt-5">
             @if($this->projects->isEmpty())
@@ -117,7 +124,7 @@ new class extends Component {
                         </section>
 
                         <div class="options">
-                            <button wire:click="editForm({{$project}})" type="button" aria-label="Edit Website Redesign" class="inline-flex h-10 items-center gap-1.5 whitespace-nowrap shrink-0 rounded-md px-2.5 text-sm font-medium text-slate-600 transition-colors duration-150 hover:bg-slate-100 hover:text-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-600">
+                            <button wire:click="editForm({{$project->id}})" type="button" aria-label="Edit Website Redesign" class="inline-flex h-10 items-center gap-1.5 whitespace-nowrap shrink-0 rounded-md px-2.5 text-sm font-medium text-slate-600 transition-colors duration-150 hover:bg-slate-100 hover:text-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-600">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-pencil h-4 w-4" aria-hidden="true">
                                     <path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"></path>
                                     <path d="m15 5 4 4"></path>
@@ -129,7 +136,7 @@ new class extends Component {
                                     <path d="M3 6h18"></path>
                                     <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
                                 </svg>
-                                <span class="hidden md:inline">Delete</span>
+                                <span class="hidden md:inline" wire:click="openDeleteConfirmationModal({{$project->id}})">Delete</span>
                             </button>
                         </div>
                     </div>
