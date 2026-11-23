@@ -16,17 +16,17 @@
                 </svg>
             </button>
         </header>
-        <form wire:submit="{{ $onSubmit }}" class="flex flex-col gap-5 p-6">
-            <label>
+        <form wire:submit="{{ $onSubmit }}" class="flex flex-col gap-3 p-6">
+            <label for="name">
                 Project Name
                 <span class="text-red-600" aria-hidden="true">*</span>
-                <input type="text" wire:model="name" class="input">
+                <input type="text" id="name" name="name" wire:model="name" class="input" x-init="$nextTick(() => $el.focus())">
                 @error('name') <span class="errorMsg">{{ $message }}</span> @enderror
             </label>
 
-            <label>
+            <label for="description">
                 Description
-                <textarea wire:model="description" rows="3" maxlength="255" class="input"></textarea>
+                <textarea wire:model="description" id="description" name="description" rows="3" maxlength="255" class="input"></textarea>
                 @error('description') <span class="errorMsg">{{ $message }}</span> @enderror
             </label>
 

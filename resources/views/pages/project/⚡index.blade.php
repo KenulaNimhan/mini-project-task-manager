@@ -76,8 +76,16 @@ new class extends Component {
     public function openDeleteConfirmationModal(int $id)
     {
         $projectToDelete = Project::findOrFail($id);
+        $this->deletingId = $projectToDelete->id;
         $this->nameOfProjectToDelete = $projectToDelete->name;
         $this->deleteConfirmation = true;
+    }
+
+    public function delete()
+    {
+        Project::destroy($this->deletingId);
+        $this->closeModal();
+        return $this->redirect(route('project.index'));
     }
 };
 ?>
@@ -125,17 +133,11 @@ new class extends Component {
 
                         <div class="options">
                             <button wire:click="editForm({{$project->id}})" type="button" aria-label="Edit Website Redesign" class="inline-flex h-10 items-center gap-1.5 whitespace-nowrap shrink-0 rounded-md px-2.5 text-sm font-medium text-slate-600 transition-colors duration-150 hover:bg-slate-100 hover:text-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-600">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-pencil h-4 w-4" aria-hidden="true">
-                                    <path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"></path>
-                                    <path d="m15 5 4 4"></path>
-                                </svg>
+                                <x-icons.edit/>
                                 <span class="hidden md:inline">Edit</span>
                             </button>
                             <button type="button" aria-label="Delete Website Redesign" class="inline-flex h-10 items-center gap-1.5 whitespace-nowrap shrink-0 rounded-md px-2.5 text-sm font-medium text-slate-600 transition-colors duration-150 hover:bg-red-50 hover:text-red-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-600">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trash2 lucide-trash-2 h-4 w-4" aria-hidden="true"><path d="M10 11v6"></path><path d="M14 11v6"></path><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"></path>
-                                    <path d="M3 6h18"></path>
-                                    <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
-                                </svg>
+                                <x-icons.delete/>
                                 <span class="hidden md:inline" wire:click="openDeleteConfirmationModal({{$project->id}})">Delete</span>
                             </button>
                         </div>
