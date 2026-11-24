@@ -136,6 +136,33 @@ button:hover {
     animation-duration: 0.5s;
 }
 
+.task-title {
+    position: relative;
+    color: var(--color-slate-700);
+    transition: color 120ms ease-out;
+}
+
+.task-title::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 50%;
+    height: 1px;
+    background: var(--color-slate-400);
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform 180ms ease-out;
+}
+
+.task-title.task-completed {
+    color: var(--color-slate-400);
+}
+
+.task-title.task-completed::after {
+    transform: scaleX(1);
+}
+
 @keyframes fade-out {
     0% {
         opacity: 1;
