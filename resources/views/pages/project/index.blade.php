@@ -38,14 +38,14 @@
                             </div>
                         </div>
                         <div class="flex items-center gap-1">
-                            <button type="button" aria-label="Edit Website Redesign" class="inline-flex h-10 items-center gap-1.5 whitespace-nowrap shrink-0 rounded-md px-2.5 text-sm font-medium text-slate-600 transition-colors duration-150 hover:bg-slate-100 hover:text-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-600">
+                            <a href="{{ route('project.edit', $project) }}" aria-label="Edit Project" class="inline-flex h-10 items-center gap-1.5 whitespace-nowrap shrink-0 rounded-md px-2.5 text-sm font-medium text-slate-600 transition-colors duration-150 hover:bg-slate-100 hover:text-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-600">
                                 <x-icons.edit/>
                                 <span class="hidden md:inline">Edit</span>
-                            </button>
+                            </a>
                             <form action="{{ route('project.destroy', $project) }}" method="POST">
                                 @csrf
                                 @method('DELETE')
-                            <button type="submit" aria-label="Delete Website Redesign" class="inline-flex h-10 items-center gap-1.5 whitespace-nowrap shrink-0 rounded-md px-2.5 text-sm font-medium text-slate-600 transition-colors duration-150 hover:bg-red-50 hover:text-red-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-600">
+                            <button type="submit" aria-label="Delete Project" class="inline-flex h-10 items-center gap-1.5 whitespace-nowrap shrink-0 rounded-md px-2.5 text-sm font-medium text-slate-600 transition-colors duration-150 hover:bg-red-50 hover:text-red-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-600">
                                 <x-icons.delete/>
                                 <span class="hidden md:inline">Delete</span>
                             </button>

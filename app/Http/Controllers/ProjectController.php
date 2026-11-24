@@ -56,7 +56,7 @@ class ProjectController extends Controller
      */
     public function edit(Project $project)
     {
-        //
+        return view('pages.project.edit', ['project' => $project]);
     }
 
     /**
