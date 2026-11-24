@@ -128,7 +128,7 @@ new class extends Component {
             <span class="text-sm font-medium text-slate-700 tabular-nums">
                 {{ $this->taskStats['completed'] }}/{{ $this->taskStats['total'] }} Tasks Completed
             </span>
-            <div class="h-1.5 w-full overflow-hidden rounded-full bg-orange-300/50 sm:w-48"
+            <div class="h-1.5 w-full overflow-hidden rounded-full bg-orange-300/30 sm:w-48"
                  role="progressbar"
                  aria-label="Project task completion"
                  aria-valuemin="0"
@@ -146,7 +146,7 @@ new class extends Component {
             <label for="new-task-title" class="sr-only">Add a new task</label>
             <div class="flex flex-col gap-3 sm:flex-row">
                 <input wire:model="newTaskDescription" id="new-task-title" placeholder="Add a new task..." aria-invalid="false"
-                       class="h-10 flex-1 rounded-md border px-3.5 text-sm text-slate-900 placeholder:text-slate-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-600 border-slate-300 bg-white hover:border-slate-400"
+                       class="h-10 flex-1 rounded-md border px-3.5 text-sm text-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-600 border-slate-300 bg-white hover:border-slate-400"
                        type="text" value="">
                 <button type="submit"
                         class="inline-flex h-10 items-center justify-center gap-1.5 whitespace-nowrap shrink-0 rounded-md bg-orange-700 px-4 text-sm font-medium text-white transition-colors duration-150 hover:bg-orange-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-600 focus-visible:ring-offset-2">

@@ -33,7 +33,7 @@
                     <div class="flex shrink-0 items-center justify-between gap-6 sm:justify-end">
                         <div class="min-w-37">
                             <div class="text-sm font-medium text-slate-700 tabular-nums">{{ $project->completedCount() }}/{{ $project->tasks->count() }} Tasks Completed</div>
-                            <div class="mt-1.5 h-1.5 w-full overflow-hidden rounded-full bg-orange-300/50">
+                            <div class="mt-1.5 h-1.5 w-full overflow-hidden rounded-full bg-orange-300/30">
                                 <div class="h-full transition-all duration-200 bg-orange-600" style="width: {{$project->completedPercentage()}}%;"></div>
                             </div>
                         </div>
