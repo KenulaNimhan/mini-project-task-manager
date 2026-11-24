@@ -53,16 +53,19 @@ button:hover {
     padding: 1em;
     border: 2px solid white;
     border-bottom: 2px solid var(--color-slate-200);
-    transition: 0.2s ease-in-out;
 }
 
-.projectContainer:hover {
+.projectDetails:hover {
     cursor: pointer;
-    border: 2px solid var(--color-orange-600);
+    /*border: 2px solid var(--color-orange-600);*/
 
-    section h2 {
+    h2 {
         color: var(--color-orange-600);
     }
+}
+
+.projectDetails {
+    transition: 0.2s ease-in-out;
 }
 
 /* Form styling */
