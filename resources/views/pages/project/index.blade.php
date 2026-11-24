@@ -31,7 +31,7 @@
                         <span class="mt-1 line-clamp-2 text-sm text-slate-600">{{ $project->description }}</span>
                     </a>
                     <div class="flex shrink-0 items-center justify-between gap-6 sm:justify-end">
-                        <div class="min-w-[148px]">
+                        <div class="min-w-37">
                             <div class="text-sm font-medium text-slate-700 tabular-nums">0/0 Tasks Completed</div>
                             <div class="mt-1.5 h-1.5 w-full overflow-hidden rounded-full bg-slate-100">
                                 <div class="h-full transition-all duration-200 bg-orange-600" style="width: 0%;"></div>
