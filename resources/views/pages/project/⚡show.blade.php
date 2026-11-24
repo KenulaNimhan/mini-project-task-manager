@@ -140,7 +140,7 @@ new class extends Component {
         </div>
     </div>
 
-    <div class="mt-10 overflow-hidden rounded-lg border border-slate-200 bg-white">
+    <div class="mt-10 mb-10 overflow-hidden rounded-lg border border-slate-200 bg-white">
         <form wire:submit.prevent="addTask"
               class="border-b border-slate-200 bg-slate-50/50 p-4 sm:p-5">
             <label for="new-task-title" class="sr-only">Add a new task</label>
