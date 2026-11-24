@@ -32,6 +32,10 @@ class Project extends Model
             ->where('is_completed', true)
             ->get()->count();
 
+        if ($total_tasks == 0) {
+            return 0;
+        }
+
         return ($completed_count / $total_tasks) * 100;
 
     }

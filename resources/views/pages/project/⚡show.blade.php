@@ -7,9 +7,9 @@ use Livewire\Component;
 
 new class extends Component {
     public Project $project;
-    public string $newTaskDescription = '';
+    public string $newTaskTitle = '';
     public ?int $editingTaskId = null;
-    public string $editingTaskDescription = '';
+    public string $editingTaskTitle = '';
 
     #[Computed]
     public function taskStats(): array
@@ -23,7 +23,7 @@ new class extends Component {
             'total' => $totalTasks,
             'completed' => $completedTasks,
             'percentage' => $totalTasks > 0
-                ? (int) round(($completedTasks / $totalTasks) * 100)
+                ? (int)round(($completedTasks / $totalTasks) * 100)
                 : 0,
         ];
     }
@@ -31,16 +31,16 @@ new class extends Component {
     public function addTask(): void
     {
         $validated = $this->validate([
-            'newTaskDescription' => 'required|string|max:255',
+            'newTaskTitle' => 'required|string|max:255',
         ]);
 
         Task::create([
-            'description' => $validated['newTaskDescription'],
+            'title' => $validated['newTaskTitle'],
             'project_id' => $this->project->id,
             'is_completed' => false,
         ]);
 
-        $this->reset('newTaskDescription');
+        $this->reset('newTaskTitle');
         $this->project->refresh();
         $this->project->load('tasks');
     }
@@ -77,20 +77,20 @@ new class extends Component {
             ->firstOrFail();
 
         $this->editingTaskId = $task->id;
-        $this->editingTaskDescription = $task->description;
+        $this->editingTaskTitle = $task->title;
     }
 
     public function saveTask(int $taskId): void
     {
         $validated = $this->validate([
-            'editingTaskDescription' => 'required|string|max:255',
+            'editingTaskTitle' => 'required|string|max:255',
         ]);
 
         Task::where('id', $taskId)
             ->where('project_id', $this->project->id)
             ->firstOrFail()
             ->update([
-                'description' => $validated['editingTaskDescription'],
+                'title' => $validated['editingTaskTitle'],
             ]);
 
         $this->cancelEditingTask();
@@ -100,7 +100,7 @@ new class extends Component {
 
     public function cancelEditingTask(): void
     {
-        $this->reset(['editingTaskId', 'editingTaskDescription']);
+        $this->reset(['editingTaskId', 'editingTaskTitle']);
         $this->resetValidation();
     }
 };
@@ -145,7 +145,8 @@ new class extends Component {
               class="border-b border-slate-200 bg-slate-50/50 p-4 sm:p-5">
             <label for="new-task-title" class="sr-only">Add a new task</label>
             <div class="flex flex-col gap-3 sm:flex-row">
-                <input wire:model="newTaskDescription" id="new-task-title" placeholder="Add a new task..." aria-invalid="false"
+                <input wire:model="newTaskTitle" id="new-task-title" placeholder="Add a new task..."
+                       aria-invalid="false"
                        class="h-10 flex-1 rounded-md border px-3.5 text-sm text-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-600 border-slate-300 bg-white hover:border-slate-400"
                        type="text" value="">
                 <button type="submit"
@@ -159,8 +160,8 @@ new class extends Component {
                     Add Task
                 </button>
             </div>
-            @error('newTaskDescription')
-                <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+            @error('newTaskTitle')
+            <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
             @enderror
         </form>
         @if($project->tasks->isEmpty())
@@ -171,10 +172,11 @@ new class extends Component {
             </div>
         @else
             @foreach($project->tasks()->latest('id')->get() as $task)
-                <div wire:key="task-{{ $task->id }}" class="flex items-center justify-between gap-4 border-b border-slate-100 px-4 py-3 last:border-b-0">
+                <div wire:key="task-{{ $task->id }}"
+                     class="flex items-center justify-between gap-4 border-b border-slate-100 px-4 py-3 last:border-b-0">
                     @if($editingTaskId === $task->id)
                         <input type="text"
-                               wire:model="editingTaskDescription"
+                               wire:model="editingTaskTitle"
                                wire:keydown.enter.prevent="saveTask({{ $task->id }})"
                                wire:keydown.escape.prevent="cancelEditingTask"
                                class="h-9 min-w-0 flex-1 rounded-md border border-slate-300 px-3 text-sm text-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-600"
@@ -197,8 +199,9 @@ new class extends Component {
                                    wire:change="toggleTask({{ $task->id }})"
                                    @checked($task->is_completed)
                                    class="h-4 w-4 shrink-0 rounded border-slate-300 accent-orange-600">
-                            <span class="task-title min-w-0 line-clamp-2 text-sm {{ $task->is_completed ? 'task-completed' : '' }}">
-                                {{ $task->description }}
+                            <span
+                                class="task-title min-w-0 line-clamp-2 text-sm {{ $task->is_completed ? 'task-completed' : '' }}">
+                                {{ $task->title }}
                             </span>
                         </label>
                         <button type="button"
