@@ -171,7 +171,7 @@ new class extends Component {
             </div>
         @else
             @foreach($project->tasks()->latest('id')->get() as $task)
-                <div class="flex items-center justify-between gap-4 border-b border-slate-100 px-4 py-3 last:border-b-0">
+                <div wire:key="task-{{ $task->id }}" class="flex items-center justify-between gap-4 border-b border-slate-100 px-4 py-3 last:border-b-0">
                     @if($editingTaskId === $task->id)
                         <input type="text"
                                wire:model="editingTaskDescription"
