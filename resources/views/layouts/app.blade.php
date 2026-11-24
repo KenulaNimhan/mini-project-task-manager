@@ -12,6 +12,20 @@
     </head>
     <body>
     <x-header/>
+        <div class="absolute h-fit">
+            @if(session('success'))
+                <x-alert type="success" :message="session('success')"/>
+            @endif
+
+            @if(session('error'))
+                <x-alert type="error" :message="session('error')"/>
+            @endif
+
+            @if(session('info'))
+                <x-alert :message="session('info')"/>
+            @endif
+        </div>
+
         {{ $slot }}
 
         @livewireScripts
