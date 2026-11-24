@@ -128,7 +128,7 @@ new class extends Component {
             <span class="text-sm font-medium text-slate-700 tabular-nums">
                 {{ $this->taskStats['completed'] }}/{{ $this->taskStats['total'] }} Tasks Completed
             </span>
-            <div class="h-1.5 w-full overflow-hidden rounded-full bg-slate-100 sm:w-48"
+            <div class="h-1.5 w-full overflow-hidden rounded-full bg-orange-300/50 sm:w-48"
                  role="progressbar"
                  aria-label="Project task completion"
                  aria-valuemin="0"
