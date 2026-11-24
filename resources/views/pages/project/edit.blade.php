@@ -8,8 +8,9 @@
     <header class="flex justify-between p-6 border-b border-b-gray-300">
         <h2 class="text-2xl font-semibold text-slate-900">Edit Project</h2>
     </header>
-    <form action="{{ route('project.store') }}" method="POST" class="flex flex-col gap-10 p-6">
+    <form action="{{ route('project.update', $project) }}" method="POST" class="flex flex-col gap-10 p-6">
         @csrf
+        @method('PATCH')
         <label for="name">
             Project Name
             <span class="text-red-600" aria-hidden="true">*</span>
