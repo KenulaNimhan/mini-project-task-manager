@@ -87,9 +87,9 @@ class ProjectController extends Controller
 
         if ($incomplete_tasks->count() == 0) {
             $project->delete();
-            return redirect(route('project.index'))->with('success', 'project successfully deleted');
+            return redirect(route('project.index'))->with('success', 'Project successfully deleted');
         } else {
-            return back()->with('error', 'cannot delete a project with incomplete tasks');
+            return back()->with('error', 'Cannot delete a project with incomplete tasks');
         }
     }
 }

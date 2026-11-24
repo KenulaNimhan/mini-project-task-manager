@@ -12,7 +12,7 @@
     </head>
     <body>
     <x-header/>
-        <div class="absolute h-fit">
+        <div class="alertMsg">
             @if(session('success'))
                 <x-alert type="success" :message="session('success')"/>
             @endif

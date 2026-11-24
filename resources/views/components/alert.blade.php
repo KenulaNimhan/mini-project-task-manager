@@ -13,7 +13,7 @@
 @endphp
 
 @if(session($type) || $message)
-    <div class="rounded-md border px-4 py-3 mb-4 {{ $class }}" role="alert">
+    <div class="rounded-sm border px-4 py-3 mb-4 flex items-center-safe gap-1.5 {{ $class }}" role="alert">
         <p class="text-sm font-medium">
             {{ session($type) ?? $message }}
         </p>
