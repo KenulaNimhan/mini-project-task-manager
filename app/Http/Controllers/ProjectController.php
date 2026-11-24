@@ -14,7 +14,7 @@ class ProjectController extends Controller
     {
         $projects = Project::all();
 
-        return view('projects.index', ['projects' => $projects]);
+        return view('pages.project.index', ['projects' => $projects]);
     }
 
     /**
@@ -22,7 +22,7 @@ class ProjectController extends Controller
      */
     public function create()
     {
-        return view('project.create');
+        return view('pages.project.create');
     }
 
     /**
@@ -38,6 +38,8 @@ class ProjectController extends Controller
         // create a new project in database
         Project::create($validated);
 
+        return redirect(route('project.index'));
+
     }
 
     /**
@@ -45,7 +47,8 @@ class ProjectController extends Controller
      */
     public function show(Project $project)
     {
-        //
+        $project->load(['tasks']);
+        return view('pages.project.show', compact('project'));
     }
 
     /**
@@ -61,7 +64,16 @@ class ProjectController extends Controller
      */
     public function update(Request $request, Project $project)
     {
-        //
+        $request->validate([
+            'name' => 'required|string',
+            'description' => 'nullable|string',
+        ]);
+        $project->update([
+            'name' => $request->name,
+            'description' => $request->description,
+        ]);
+
+        return redirect(route('project.index'));
     }
 
     /**
@@ -69,9 +81,15 @@ class ProjectController extends Controller
      */
     public function destroy(Project $project)
     {
-        // if any of the tasks are incomplete
-        // display error message
-        // else
-        // delete tasks and project
+        $incomplete_tasks = $project->tasks()
+            ->where('is_completed', false)
+            ->get();
+
+        if ($incomplete_tasks->count() == 0) {
+            $project->delete();
+            return redirect(route('project.index'))->with('success', 'project successfully deleted');
+        } else {
+            return back()->with('error', 'cannot delete a project with incomplete tasks');
+        }
     }
 }

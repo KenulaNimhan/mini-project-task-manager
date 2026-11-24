@@ -31,10 +31,12 @@ class TaskController extends Controller
         // validate the request
         $validated = $request->validate([
             'description' => 'required|max:255',
-            'project_id' => ['required|integer|exists:projects,id'],
+            'project_id' => 'required|integer|exists:projects,id',
         ]);
         // create new task in db
         Task::create($validated);
+
+        return redirect()->back();
     }
 
     /**
