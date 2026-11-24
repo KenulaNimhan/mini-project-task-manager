@@ -30,7 +30,7 @@
                         <h2 class="truncate text-base font-semibold text-slate-900 transition-colors group-hover:text-orange-700">{{ $project->name }}</h2>
                         <span class="mt-1 line-clamp-2 text-sm text-slate-600">{{ $project->description }}</span>
                     </a>
-                    <div class="flex shrink-0 items-center justify-between gap-6 sm:justify-end">
+                    <div class="flex shrink-0 items-center justify-between gap-6 sm:justify-end p-4">
                         <div class="min-w-37">
                             <div class="text-sm font-medium text-slate-700 tabular-nums">{{ $project->completedCount() }}/{{ $project->tasks->count() }} Tasks Completed</div>
                             <div class="mt-1.5 h-1.5 w-full overflow-hidden rounded-full bg-orange-300/30">
