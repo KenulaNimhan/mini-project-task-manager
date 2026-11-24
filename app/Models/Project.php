@@ -16,4 +16,23 @@ class Project extends Model
     {
         return $this->hasMany(Task::class);
     }
+
+    public function completedCount(): int
+    {
+        return $this->tasks()
+            ->where('is_completed', true)
+            ->get()->count();
+
+    }
+
+    public function completedPercentage(): float
+    {
+        $total_tasks = $this->tasks->count();
+        $completed_count = $this->tasks()
+            ->where('is_completed', true)
+            ->get()->count();
+
+        return ($completed_count / $total_tasks) * 100;
+
+    }
 }
