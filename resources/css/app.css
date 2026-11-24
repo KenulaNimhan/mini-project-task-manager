@@ -31,8 +31,7 @@ body {
 .projectSection {
     width: 80%;
     max-width: 1000px;
-    margin: auto;
-    margin-top: 8em;
+    margin: 8em auto auto;
 }
 
 .projectSection header {
@@ -49,7 +48,6 @@ button:hover {
     display: flex;
     justify-content: space-between;
     text-align: left;
-    /*padding: 1em;*/
     border: 2px solid white;
     border-bottom: 2px solid var(--color-slate-200);
 }
