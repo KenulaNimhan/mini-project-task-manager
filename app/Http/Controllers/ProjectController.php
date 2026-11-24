@@ -47,8 +47,7 @@ class ProjectController extends Controller
      */
     public function show(Project $project)
     {
-        $project->load(['tasks']);
-        return view('pages.project.show', compact('project'));
+        //
     }
 
     /**
