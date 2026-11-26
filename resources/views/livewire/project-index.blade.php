@@ -1,5 +1,3 @@
-<x-layouts::app/>
-
 <div class="projectSection">
     <header>
         <div>
@@ -42,14 +40,10 @@
                                 <x-icons.edit/>
                                 <span class="hidden md:inline">Edit</span>
                             </a>
-                            <form action="{{ route('project.destroy', $project) }}" method="POST">
-                                @csrf
-                                @method('DELETE')
-                            <button type="submit" aria-label="Delete Project" class="inline-flex h-10 items-center gap-1.5 whitespace-nowrap shrink-0 rounded-md px-2.5 text-sm font-medium text-slate-600 transition-colors duration-150 hover:bg-red-50 hover:text-red-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-600">
+                            <button type="button" wire:click="deleteProject({{ $project->id }})" aria-label="Delete Project" class="inline-flex h-10 items-center gap-1.5 whitespace-nowrap shrink-0 rounded-md px-2.5 text-sm font-medium text-slate-600 transition-colors duration-150 hover:bg-red-50 hover:text-red-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-600">
                                 <x-icons.delete/>
                                 <span class="hidden md:inline">Delete</span>
                             </button>
-                            </form>
                         </div>
                     </div>
                 </div>
